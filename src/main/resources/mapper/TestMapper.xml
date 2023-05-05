@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.linmt.mapper.TestMapper">
+    <select id="queryList1" resultType="java.util.Map">
+        select t1.*
+        from t_table1 as t1 join t_table2 as t2 on t1.id=t2.id
+        <where>
+            and t1.id=1
+        </where>
+        order by t1.id asc
+        limit 10
+    </select>
+
+    <select id="queryList2" resultType="java.util.Map">
+        select t1.*
+        from (select * from t_table1) as t1 join t_table2 as t2 on t1.id=t2.id
+        <where>
+            and t1.id in (
+                select id
+                from t_table3
+            )
+        </where>
+    </select>
+
+    <select id="queryList3" resultType="java.util.Map">
+        with table_4 as (
+            select *
+            from t_table1
+        )
+        select *
+        from table_4
+    </select>
+
+    <select id="queryList4" resultType="java.util.Map">
+        select *
+        from t_table1
+        union all
+        select *
+        from t_table2
+        union all
+        select *
+        from t_table3
+    </select>
+</mapper>
